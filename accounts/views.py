@@ -5,6 +5,9 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.views.generic.base import TemplateView
 from accounts.forms import CustomUserCreationForm  # Import the custom form
+from django_filters import FilterSet, BooleanFilter
+from accounts.models import CustomUser
+from django import forms
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -29,3 +32,26 @@ def logout_view(request):
     if request.method == "POST":
         logout(request)
         return redirect("login")
+
+
+
+
+# Filter class to filter users by public_visibility
+class UserFilter(FilterSet):
+    public_visibility = BooleanFilter(field_name='public_visibility', label="Public Visibility", widget=forms.CheckboxInput)
+
+    class Meta:
+        model = CustomUser
+        fields = ['public_visibility']
+
+# View to display authors and sellers (users with public_visibility=True)
+def authors_and_sellers(request):
+    # Create the filter object from the GET request
+    user_filter = UserFilter(request.GET, queryset=CustomUser.objects.filter(public_visibility=True)) #queryset = CustomUser.objects.filter(public_visibility=True)
+
+
+    # Use the filter to get the filtered list of users
+    users = user_filter.qs
+
+    # Render the template with the filtered users
+    return render(request, 'authors_and_sellers.html', {'users': users, 'filter': user_filter})
