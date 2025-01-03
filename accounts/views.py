@@ -8,6 +8,8 @@ from accounts.forms import CustomUserCreationForm  # Import the custom form
 from django_filters import FilterSet, BooleanFilter
 from accounts.models import CustomUser
 from django import forms
+from .forms import UploadedFilesForm
+from .models import UploadedFiles
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -55,3 +57,28 @@ def authors_and_sellers(request):
 
     # Render the template with the filtered users
     return render(request, 'authors_and_sellers.html', {'users': users, 'filter': user_filter})
+
+
+
+def upload_books(request):
+    if request.method == 'POST' and request.FILES['file']:
+        form = UploadedFilesForm(request.POST, request.FILES)
+        if form.is_valid():
+            uploaded_file = form.save(commit=False)
+            uploaded_file.user = request.user
+            uploaded_file.save()
+            return redirect('uploaded_files')  # Redirect to uploaded files page
+    else:
+        form = UploadedFilesForm()
+    
+    return render(request, 'upload_books.html', {'form': form})
+
+def uploaded_files(request):
+    files = UploadedFiles.objects.filter(user=request.user)
+    return render(request, 'uploaded_files.html', {'files': files})
+
+class UploadBooksView(TemplateView):
+    template_name = "upload_books.html"  # Create this template to allow users to upload files
+
+class UploadedFilesView(TemplateView):
+    template_name = "uploaded_files.html"  # Create this template to show the uploaded files

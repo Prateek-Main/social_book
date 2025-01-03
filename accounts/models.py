@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from datetime import date
 from .managers import CustomUserManager
+from django.conf import settings
 
 
 class CustomUser(AbstractUser):
@@ -28,3 +29,17 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.email
+
+
+
+class UploadedFiles(models.Model):
+    user = models.ForeignKey(CustomUser, related_name='uploaded_files', on_delete=models.CASCADE)
+    title = models.CharField(max_length=255)
+    file = models.FileField(upload_to='uploaded_books/')
+    description = models.TextField(blank=True, null=True)
+    cost = models.DecimalField(max_digits=10, decimal_places=2)
+    published_year = models.IntegerField()
+    visibility = models.BooleanField(default=True)  # Assuming public_visibility
+
+    def __str__(self):
+        return self.title

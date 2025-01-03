@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Uploaded Files{% endblock %}
+
+{% block content %}
+<h2>Your Uploaded Files</h2>
+
+{% if files %}
+    <ul>
+        {% for file in files %}
+            <li>
+                <strong>{{ file.title }}</strong> ({{ file.published_year }})
+                <br>
+                <a href="{{ file.file.url }}" download>Download File</a>
+                <br>
+                <p>{{ file.description }}</p>
+                <p>Cost: ${{ file.cost }}</p>
+                <p>Visibility: {% if file.visibility %}Public{% else %}Private{% endif %}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You haven't uploaded any files yet.</p>
+{% endif %}
+{% endblock %}

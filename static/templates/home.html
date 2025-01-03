@@ -11,6 +11,16 @@
     <button type="button" class="btn">Authors and Sellers</button>
 </a>
 
+<!-- upload file -->
+<a href="{% url 'upload_books' %}">
+    <button type="button" class="btn">Upload File</button>
+</a>
+
+<!-- uploaded files -->
+<a href="{% url 'uploaded_files' %}">
+    <button type="button" class="btn">Access File</button>
+</a>
+
 <!-- Log Out Form -->
 <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}

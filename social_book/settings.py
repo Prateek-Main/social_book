@@ -130,3 +130,7 @@ LOGIN_REDIRECT_URL = "home"  # redirect the user after a succesfull login
 LOGUT_REDIRECT_URL = "home"  # redirect the user after a logout
 
 AUTH_USER_MODEL = "accounts.CustomUser"
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
