@@ -4,11 +4,29 @@
 
 {% block content %}
 {% if user.is_authenticated %}
-<h2>Welcome, {{ user.username }}!</h2>
+<h2>Welcome, {{ user.email }}!</h2>
+
+<!-- Authors and Sellers Button -->
+<a href="{% url 'authors_and_sellers' %}">
+    <button type="button" class="btn">Authors and Sellers</button>
+</a>
+
+<!-- upload file -->
+<a href="{% url 'upload_books' %}">
+    <button type="button" class="btn">Upload File</button>
+</a>
+
+<!-- uploaded files -->
+<a href="{% url 'uploaded_files' %}">
+    <button type="button" class="btn">Access File</button>
+</a>
+
+<!-- Log Out Form -->
 <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}
   <button type="submit">Log Out</button>
 </form>
+
 {% else %}
 <h2>Welcome to Social Book</h2>
 <p>Please <a href="{% url 'login' %}">Log In</a> or <a href="{% url 'signup' %}">Sign Up</a> to continue.</p>
