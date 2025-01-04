@@ -1,0 +1,29 @@
+----------A guide for what was done in the project------------
+
+
+
+##Upload file using Django REST Framework
+    serializer.py that defines the Upload model
+
+    useful link : https://saasitive.com/tutorial/token-based-authentication-django-rest-framework-djoser/
+    1002  touch accounts/filters.py
+ 1003  /opt/homebrew/bin/python3 /Users/prateekchaudhary/.vscode/extensions/ms-python.python-2024.22.1-darwin-arm64/python_files/printEnvVariablesToFile.py /Users/prateekchaudhary/.vscode/extensions/ms-python.python-2024.22.1-darwin-arm64/python_files/deactivate/zsh/envVars.txt
+ 1004  pip install djangorestframework\npip install djoser\npip install sqlalchemy psycopg2\n
+ 1005  touch accounts/sqlalchemy_engine.py
+ 1006  touch accounts/fetch_data.py
+ 1007  python accounts/fetch_data.py\n
+ 1008  python accounts/fetch_data.py\n
+ 1009  sudo service postgresql status\n
+ 1010  sudo service postgresql status\n
+ 1011  brew install postgresql\nbrew services start postgresql\n
+ 1012  brew services list\n
+ 1013  python accounts/fetch_data.py\n
+ 1014  createuser -s postgres\n
+ 1015  psql -U postgres\n
+ 1016  python3 manage.py runserver\n
+ 1017  /usr/bin/python3 /Users/prateekchaudhary/.vscode/extensions/ms-python.python-2024.22.1-darwin-arm64/python_files/printEnvVariablesToFile.py /Users/prateekchaudhary/.vscode/extensions/ms-python.python-2024.22.1-darwin-arm64/python_files/deactivate/zsh/envVars.txt
+(env) prateekchaudhary@Prateeks-MacBook-Air social_book % 
+
+
+
+
