@@ -17,10 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include #added
 from django.views.generic.base import TemplateView  # importing 
+from accounts.urls import urlpatterns
 
-urlpatterns = [
+social_urlpatterns = [
     path('admin/', admin.site.urls),
     path("accounts/", include("accounts.urls")),  # django checks the url from top-down ecause of which we make sure to include signup first.
     path("accounts/", include("django.contrib.auth.urls")),# new url path
     path("", TemplateView.as_view(template_name="home.html"), name="home"),  # to help display the homepage
 ]
+
+social_urlpatterns += urlpatterns
