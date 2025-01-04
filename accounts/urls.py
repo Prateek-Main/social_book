@@ -3,6 +3,8 @@ from django.contrib.auth.views import LoginView
 from .views import SignUpView, HomeView, login_view, logout_view, authors_and_sellers, upload_books, uploaded_files
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import include
+
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
@@ -12,6 +14,10 @@ urlpatterns = [
     path("authors-and-sellers/", authors_and_sellers, name="authors_and_sellers"),
     path('upload-books/', upload_books, name='upload_books'),
     path('uploaded-files/', uploaded_files, name='uploaded_files'),
+    path('api/v1/', include('djoser.urls')),
+    path('api/v1/', include('djoser.urls.authtoken')),
+    
+    
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,12 @@
+----------A guide for what was done in the project------------
+
+
+
+##Upload file using Django REST Framework
+    serializer.py that defines the Upload model
+
+    useful link : https://saasitive.com/tutorial/token-based-authentication-django-rest-framework-djoser/
+
+
+
+
