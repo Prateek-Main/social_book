@@ -1,8 +1,7 @@
 from django.urls import path
 from django.contrib.auth.views import LoginView
 from .views import SignUpView, HomeView, login_view, logout_view, authors_and_sellers, upload_books, uploaded_files
-from django.conf import settings
-from django.conf.urls.static import static
+
 
 urlpatterns = [
     path("", HomeView.as_view(), name="home"),
@@ -14,7 +13,5 @@ urlpatterns = [
     path('uploaded-files/', uploaded_files, name='uploaded_files'),
 ]
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
