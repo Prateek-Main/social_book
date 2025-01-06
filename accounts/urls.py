@@ -28,3 +28,10 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+from .views import UserFilesView
+
+urlpatterns += [
+    path('api/v1/my-files/', UserFilesView.as_view(), name='my_files'),
+]

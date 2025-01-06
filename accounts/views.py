@@ -111,3 +111,28 @@ class UploadView(APIView):
             return Response({"message" : "File is received"}, status= 200)
         else:
             return Response({"message" : "File is missing"}, status= 400)
+        
+        from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from accounts.models import UploadedFiles
+from django.http import Http404
+from rest_framework import status
+
+class UserFilesView(APIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        files = UploadedFiles.objects.filter(user=user)
+        if not files:
+            return Response({"message": "No files found"}, status=status.HTTP_404_NOT_FOUND)
+
+        files_data = [
+            {"title": file.title, "description": file.description, "file_url": file.file.url}
+            for file in files
+        ]
+        return Response(files_data, status=status.HTTP_200_OK)
+
