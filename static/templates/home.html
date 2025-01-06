@@ -22,9 +22,13 @@
 </a>
 
 <!-- Log Out Form -->
-<form action="{% url 'logout' %}" method="post">
+{% comment %} <form action="{% url 'logout' %}" method="post">
   {% csrf_token %}
   <button type="submit">Log Out</button>
+</form> {% endcomment %}
+<form method="POST" action="{% url 'logout' %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
 </form>
 
 {% else %}

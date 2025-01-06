@@ -10,6 +10,12 @@ from accounts.models import CustomUser
 from django import forms
 from .forms import UploadedFilesForm
 from .models import UploadedFiles
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework import status
+from rest_framework.parsers import FileUploadParser
+from rest_framework.authentication import TokenAuthentication
 
 class HomeView(TemplateView):
     template_name = "home.html"
@@ -82,3 +88,26 @@ class UploadBooksView(TemplateView):
 
 class UploadedFilesView(TemplateView):
     template_name = "uploaded_files.html"  # Create this template to show the uploaded files
+
+
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]  # Only authenticated users can log out
+
+    def post(self, request):
+        request.user.auth_token.delete()  # Delete the user's token
+        return Response(status=status.HTTP_200_OK)
+
+
+class UploadView(APIView):
+    parser_classes = [FileUploadParser]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        file = request.data.get('file_upload',None)
+        import pdb; pdb.set_trace()
+        print(file)
+        if file:
+            return Response({"message" : "File is received"}, status= 200)
+        else:
+            return Response({"message" : "File is missing"}, status= 400)
