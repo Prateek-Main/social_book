@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, View
 from django.views.generic.base import TemplateView
 from accounts.forms import CustomUserCreationForm  # Import the custom form
 from django_filters import FilterSet, BooleanFilter
@@ -160,7 +160,53 @@ def send_test_email(request):
         'Test Subject',
         'This is a test email.',
         'testemaildjango001@gmail.com',
-        ['user@user.com'],
+        ['1032210910@mitwpu.edu.in.com'],
         fail_silently=False,
     )
     return HttpResponse("Test email sent!")
+
+
+from django.shortcuts import render
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.utils.timezone import now, timedelta
+from django.contrib.auth import get_user_model
+from accounts.models import OTP
+import random
+
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+
+@method_decorator(csrf_exempt, name='dispatch')
+class GenerateOTPView(View):
+    def post(self, request):
+        email = request.POST.get('email')
+        user = get_user_model().objects.filter(email=email).first()
+        if user:
+            otp = str(random.randint(100000, 999999))
+            OTP.objects.create(user=user, otp=otp)
+            send_mail(
+                'Your OTP Code',
+                f'Your OTP is {otp}.',
+                settings.EMAIL_HOST_USER,
+                [user.email],
+                fail_silently=False,
+            )
+            return render(request, "otp_success.html", {"message": "OTP sent to your email!"})
+        return render(request, "otp_error.html", {"message": "User not found!"})
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+
+class VerifyOTPView(View):
+    def post(self, request):
+        email = request.POST.get('email')
+        otp = request.POST.get('otp')
+        user = get_user_model().objects.filter(email=email).first()
+        if user:
+            otp_record = OTP.objects.filter(user=user, otp=otp).first()
+            if otp_record and otp_record.created_at > now() - timedelta(minutes=5):
+                # OTP is valid
+                return render(request, "otp_success.html", {"message": "OTP verified successfully!"})
+            return render(request, "otp_error.html", {"message": "Invalid or expired OTP!"})
+        return render(request, "otp_error.html", {"message": "User not found!"})

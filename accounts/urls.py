@@ -1,7 +1,7 @@
 # urls.py
 
 from django.urls import path
-from .views import SignUpView, HomeView, login_view, logout_view, authors_and_sellers, upload_books, uploaded_files, UploadView, send_test_email
+from .views import SignUpView, HomeView, login_view, logout_view, authors_and_sellers, upload_books, uploaded_files, UploadView, send_test_email,GenerateOTPView,VerifyOTPView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.conf.urls import include
@@ -35,4 +35,6 @@ from .views import UserFilesView
 urlpatterns += [
     path('api/v1/my-files/', UserFilesView.as_view(), name='my_files'),
     path('send-test-email/', send_test_email, name='send_test_email'),
+    path('generate-otp/', GenerateOTPView.as_view(), name='generate_otp'),
+    path('verify-otp/', VerifyOTPView.as_view(), name='verify_otp'),
 ]
