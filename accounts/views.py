@@ -136,3 +136,31 @@ class UserFilesView(APIView):
         ]
         return Response(files_data, status=status.HTTP_200_OK)
 
+
+from django.core.mail import send_mail
+from django.conf import settings
+from django.http import HttpResponse
+
+# def send_email_view(request):
+#     subject = "Test Email"
+#     message = "This is a test email sent from Django."
+#     from_email = settings.EMAIL_HOST_USER
+#     recipient_list = ['recipient_email@example.com']
+
+#     try:
+#         send_mail(subject, message, from_email, recipient_list)
+#         return HttpResponse("Email sent successfully!")
+#     except Exception as e:
+#         return HttpResponse(f"Error: {str(e)}")
+
+from django.core.mail import send_mail
+
+def send_test_email(request):
+    send_mail(
+        'Test Subject',
+        'This is a test email.',
+        'testemaildjango001@gmail.com',
+        ['user@user.com'],
+        fail_silently=False,
+    )
+    return HttpResponse("Test email sent!")
